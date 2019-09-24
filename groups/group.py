@@ -178,6 +178,7 @@ z2 = create_group_class(
     lambda p1,p2: (p1[0]+p2[0], p1[1] + p2[1]),
     lambda p: (-p[0], -p[1]),
     (0,0),
+    str_fn = lambda data: str(data[0]) + ', ' + str(data[1]),
     name='Z2')    
 
 register_group(z2,'z2')

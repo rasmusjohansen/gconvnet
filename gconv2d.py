@@ -3,7 +3,7 @@ import tensorflow.keras.layers as layers
 from tensorflow.python.framework import tensor_shape
 from tensorflow.python.ops import nn,nn_ops
 import numpy as np
-import groups
+import gconvnet.groups as groups
 
 class GConv2D(layers.Layer):
     """2D G-convnet layer.
@@ -201,10 +201,30 @@ class GConv2D(layers.Layer):
     def call(self,inputs):
         print('Applying ' + str(self.name))
         print('Input shape: ' + str(inputs.shape))
+        print('Filtershape: ' + str(self.filterbank.shape))
+        inputs_reshaped = tf.reshape(
+            inputs,
+            (-1,
+             inputs.shape[1], inputs.shape[2],
+             self.G_in.size * self.ch_in))
+        filterbank_reshaped = tf.reshape(
+            self.filterbank,
+            (self.kw,
+             self.kh,
+             self.G_in.size * self.ch_in,
+             self.G_out.size * self.ch_out))
+        
         outputs = nn_ops.Convolution(
-            self.inputs.shape,
-            filter_shape=self.filterbank.shape,
-            padding='VALID')(inputs, self.kernel)
+            inputs_reshaped.shape,
+            filter_shape=filterbank_reshaped.shape,
+            padding='VALID')(inputs_reshaped, filterbank_reshaped)
+        print('Output shape: ' + str(outputs.shape))
+
+        outputs = tf.reshape(outputs,
+                             (-1,
+                              outputs.shape[1], outputs.shape[2],
+                              self.G_out.size,
+                              self.ch_out))
         print('Output shape: ' + str(outputs.shape))
         
       #  outputs = nn.bias_add(outputs, self.bias, data_format='NHWC')
@@ -239,6 +259,9 @@ class GConv2D(layers.Layer):
             self.kh_min = -self.kh + 1
             self.kh_max =  self.kh - 1
             self.kh_step = 2
+
+        print(self.kw_min,self.kw_max,self.kw_step)
+        print(self.kh_min,self.kh_max,self.kh_step)
     
     def filter_index_to_action(self,p):
         """Converts an index into a kw x kh matrix to
@@ -253,7 +276,7 @@ class GConv2D(layers.Layer):
         i,j = p[0],p[1]
 
         x =  self.kw_step * i + self.kw_min
-        y = -self.kh_step * j + self.kh_min
+        y = -self.kh_step * j + self.kh_max
 
         return groups.z2((x,y))
         
@@ -301,10 +324,18 @@ class GConv2D(layers.Layer):
 
                         new_i,new_j = self.filter_action_to_index(new_translation)
 
-                        self.filter_indices[i,j,g_in_idx,g_out_idx] = \
-                            int(new_g_in) + \
+                        idx = int(new_g_in) + \
                             new_j * self.G_in.size + \
                             new_i * self.G_in.size * self.kh
+                        self.filter_indices[i,j,g_in_idx,g_out_idx] = idx
+
+                        if idx < 0:
+                            print(str(old_translation), str(new_translation))
+                            print(g_out_idx, int(g_out_inv))
+                            print(g_in, new_g_in)
+                            print(new_i,new_j)
+                            print(i,j)
+                            print('-----')
 
                         
                 
