@@ -201,7 +201,6 @@ class GConv2D(layers.Layer):
         super(GConv2D,self).build(input_shape)
         
     def call(self,inputs):
-        print(type(inputs))
         
         inputs_reshaped = tf.reshape(
             inputs,
@@ -258,8 +257,6 @@ class GConv2D(layers.Layer):
             self.kh_max =  self.kh - 1
             self.kh_step = 2
 
-        print(self.kw_min,self.kw_max,self.kw_step)
-        print(self.kh_min,self.kh_max,self.kh_step)
     
     def filter_index_to_action(self,p):
         """Converts an index into a kw x kh matrix to

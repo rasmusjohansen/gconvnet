@@ -1,6 +1,7 @@
 import tensorflow as tf
 import tensorflow.keras.layers as layers
 import numpy as np
+import gconvnet.groups as groups
 
 class ForgetAction(layers.Layer):
     """Layer which forgets the group action of a G-feature map. Useful before feeding the data to a layer incompatible with a 2d channel structure. In particular should be used before spatial max pooling."""
@@ -33,7 +34,7 @@ class RememberAction(layers.Layer):
                  G,
                  name=None,
                  **kwargs):
-        self.G = G
+        self.G = groups.get_group(G)
         super(RememberAction,self).__init__(
             name=name,
             **kwargs)

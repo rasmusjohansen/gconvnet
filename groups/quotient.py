@@ -64,8 +64,6 @@ def create_quotient_group(H,name=None):
     
     coset_idx = 0            
     for g_idx in range(G.size):
-
-        print(QuotientGroup.GmodH_to_G)
         
         g = G(g_idx)
         

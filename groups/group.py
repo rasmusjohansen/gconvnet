@@ -131,29 +131,6 @@ def create_indexed_group_class(
     
 
         
-def create_cn_group_class(n,name=None):
-    """Creates indexed group class representing the order n
-    cyclic group C_n."""
-
-    if name==None:
-        name = 'C_' + str(n)
-
-    return create_indexed_group_class(
-        lambda x,y: (x+y)%n,
-        lambda x: (n-x)%n,
-        n,
-        identity=0,
-        str_fn=lambda i:str(i) +'(mod ' + str(n) + ')',
-        name=name)
-
-c1 = create_cn_group_class(1,name='Trivial group')
-c2 = create_cn_group_class(2)
-c4 = create_cn_group_class(4)
-
-register_group(c1,'trivial')
-register_group(c2,'c2')
-register_group(c4,'c4')
-
 def z2_constructor(*args):
     num_args = len(args)
 
@@ -197,6 +174,8 @@ def action_ccw90(g, p):
         x,y = -y,x
 
     return p.__class__((x,y))
+
+
 
 def multiplication_action(g1,g2):
     return g1 * g2

@@ -1,4 +1,4 @@
-import groups
+import gconvnet.groups as groups
 
 def create_semidirect_product(
         N,
@@ -21,8 +21,8 @@ def create_semidirect_product(
         - N = Z/nZ, H = Z/2Z, action = inversion.
         Result is dihedral group D_2n."""
 
-    N_ = N_
-    H_ = H_
+    N_ = N
+    H_ = H
     action_ = action
     name_ = name
     
@@ -33,22 +33,23 @@ def create_semidirect_product(
         name = name_
         
         size = N.size * H.size
+
+        def NH_to_index(self,n,h):
+            return int(n) + self.N.size * int(h)
         
         def __init__(self,
-                     N_element = N(),
-                     H_element = H()):
+                     index=0):
             super(_SemidirectGroup,self).__init__()
-            self.N_element = N_element
-            self.H_element = H_element
 
-        def from_index(self,i):
-            N_index = (i % self.N.size)
-            H_index = (i-N_index) // self.N.size
+            
+            N_index = (index % self.N.size)
+            H_index = (index-N_index) // self.N.size
 
             self.N_element = self.N(N_index)
             self.H_element = self.H(H_index)
 
-        def to_index(self):
+
+        def __int__(self):
             N_index = int(self.N_element)
             H_index = int(self.H_element)
 
@@ -56,13 +57,13 @@ def create_semidirect_product(
 
         def __mul__(self,other):
             N_product = self.N_element * \
-                self.action(self.H_element, other.N_element)
+                self.action.__func__(self.H_element, other.N_element)
 
             H_product = self.H_element * other.H_element
 
             
-            return _SemidirectGroup(N_product, \
-                                    H_product)
+            return _SemidirectGroup(self.NH_to_index(N_product, \
+                                                     H_product))
                      
             
         def inverse(self):
@@ -78,10 +79,12 @@ def create_semidirect_product(
             # self.H_element = h2, self.N_element=n2
             
             H_inverse = self.H_element.inverse()
-            N_inverse = \
-                self.action(H_inverse, self.N_element).inverse()
-          
-            return _SemidirectGroup(N_inverse,H_inverse)
+
+            hinv_n = self.action.__func__(H_inverse,self.N_element)
+            N_inverse = hinv_n.inverse()
+
+            ret_index = self.NH_to_index(N_inverse,H_inverse)
+            return _SemidirectGroup(ret_index)
         
 
         def set_identity(self):
@@ -102,3 +105,17 @@ def create_semidirect_product(
     return _SemidirectGroup
 
 
+def semidirect_product_action(
+        N_action,
+        H_action):
+    
+    def action(nh, x):
+        n = nh.N_element
+        h = nh.H_element
+
+        hx = H_action(h,x)
+        nhx = N_action(n,hx)
+
+        return nhx
+
+    return action
