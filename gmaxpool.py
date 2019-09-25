@@ -1,5 +1,7 @@
 import gconvnet.groups as groups
 import numpy as np
+import tensorflow as tf
+import tensorflow.keras.layers as layers
 
 class GMaxPool(layers.Layer):
 
@@ -65,7 +67,7 @@ class GMaxPool(layers.Layer):
             for h_idx in range(self.H.size):
                 h = self.H(h_idx)
 
-                gh = g * h.g_elem
+                gh = g * h.G_elem
                 gh_idx = int(gh)
 
                 self.quotient_indices[h_idx,

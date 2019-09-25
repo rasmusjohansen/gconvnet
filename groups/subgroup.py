@@ -44,14 +44,14 @@ def create_inclusion(G,H_indices,name=None):
 
             assert H_idx != -1
             
-            return H_idx 
+            return int(H_idx) 
         
         def __str__(self):
             return str(self.G_elem)
     
-    Subgroup.H_to_G = np.copy(H_indices, dtype = np.int32)
+    Subgroup.H_to_G = np.copy(H_indices)
 
-    Subgroup.G_to_H = np.full(shape=(G.size), -1, dtype = np.int32)
+    Subgroup.G_to_H = np.full((G.size), -1, dtype = np.int32)
     
     for h_idx,g_idx in enumerate(H_indices):
         Subgroup.G_to_H[g_idx] = h_idx

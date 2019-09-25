@@ -125,7 +125,7 @@ def create_indexed_group_class(
             super(_Group,self).__init__(index)
 
         def __int__(self):
-            return self.data
+            return int(self.data)
 
     return _Group
     
