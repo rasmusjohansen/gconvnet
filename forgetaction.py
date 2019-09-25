@@ -22,7 +22,7 @@ class ForgetAction(layers.Layer):
         new_ch = int(G_size * ch)
 
         outputs = tf.reshape(inputs,
-                             inputs.shape[:-2].as_list() + [new_ch])
+                             [-1] + inputs.shape[1:-2].as_list() + [new_ch])
 
         return outputs
 
@@ -46,6 +46,6 @@ class RememberAction(layers.Layer):
         ch = int(inputs.shape[-1]) // G_size
 
         outputs = tf.reshape(inputs,
-                             inputs.shape[:-1].as_list() + [G_size,ch])
+                             [-1] + inputs.shape[1:-1].as_list() + [G_size,ch])
 
         return outputs
