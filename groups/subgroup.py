@@ -26,7 +26,6 @@ def create_inclusion(G,H_indices,name=None):
             
             return Subgroup(self.G_to_H[H_idx])
         
-            return Subgroup(self.G_to_H[int(G_product)])
 
         def inverse(self):
             G_inverse = self.G_elem.inverse()
