@@ -201,6 +201,8 @@ class GConv2D(layers.Layer):
         super(GConv2D,self).build(input_shape)
         
     def call(self,inputs):
+        print(type(inputs))
+        
         inputs_reshaped = tf.reshape(
             inputs,
             (-1,
