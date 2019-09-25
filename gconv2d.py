@@ -13,7 +13,9 @@ class GConv2D(layers.Layer):
 
         filterbank: (kw,kh,G_in.size,ch_in,G_out.size,ch_out)
 
-        filter indices: (kw,kh,G_in.size,G_out.size)."""
+        filter indices: (kw,kh,G_in.size,G_out.size).
+
+        output: (?,w,h,G_out.size,ch_out)"""
     
     def __init__(self, 
                  filters, 
@@ -169,12 +171,12 @@ class GConv2D(layers.Layer):
         
         if self.use_bias:
             raise NotImplementedError('Bias not implemented')
-         #   self.bias = self.add_weight(
-         #       name='bias',
-          #      shape=(self.filters_raw,),
-          #      initializer=self.bias_initializer,
-          #      trainable=True,
-          #      dtype=self.dtype)
+            self.bias = self.add_weight(
+                name='bias',
+                shape=(self.filters_raw,),
+                initializer=self.bias_initializer,
+                trainable=True,
+                dtype=self.dtype)
         else:
             self.bias = None
 
@@ -199,9 +201,6 @@ class GConv2D(layers.Layer):
         super(GConv2D,self).build(input_shape)
         
     def call(self,inputs):
-        print('Applying ' + str(self.name))
-        print('Input shape: ' + str(inputs.shape))
-        print('Filtershape: ' + str(self.filterbank.shape))
         inputs_reshaped = tf.reshape(
             inputs,
             (-1,
@@ -218,14 +217,12 @@ class GConv2D(layers.Layer):
             inputs_reshaped.shape,
             filter_shape=filterbank_reshaped.shape,
             padding='VALID')(inputs_reshaped, filterbank_reshaped)
-        print('Output shape: ' + str(outputs.shape))
 
         outputs = tf.reshape(outputs,
                              (-1,
                               outputs.shape[1], outputs.shape[2],
                               self.G_out.size,
                               self.ch_out))
-        print('Output shape: ' + str(outputs.shape))
         
       #  outputs = nn.bias_add(outputs, self.bias, data_format='NHWC')
         
@@ -233,7 +230,6 @@ class GConv2D(layers.Layer):
         
     def compute_output_shape(self,input_shape):
         raise NotImplementedError('xyz')
-        return tensor_shape.TensorShape([int(input_shape[0])] + [26,26] + [self.filters])
 
 
 
@@ -283,7 +279,6 @@ class GConv2D(layers.Layer):
     def filter_action_to_index(self,t):
         x = t.data[0]
         y = t.data[1]
-
         
         i = (x - self.kw_min) // self.kw_step
         j = (self.kh_max - y) // self.kh_step
@@ -329,13 +324,6 @@ class GConv2D(layers.Layer):
                             new_i * self.G_in.size * self.kh
                         self.filter_indices[i,j,g_in_idx,g_out_idx] = idx
 
-                        if idx < 0:
-                            print(str(old_translation), str(new_translation))
-                            print(g_out_idx, int(g_out_inv))
-                            print(g_in, new_g_in)
-                            print(new_i,new_j)
-                            print(i,j)
-                            print('-----')
 
                         
                 
