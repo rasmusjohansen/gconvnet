@@ -1,5 +1,5 @@
 # gconvnet
-G-CNN layer implementation for Tensorflow/Keras.
+G-CNN layer implementation for Tensorflow/Keras. Based on [Group Equivariant Convolutional Networks](https://arxiv.org/abs/1602.07576).
 
 
 ## Representation of groups
