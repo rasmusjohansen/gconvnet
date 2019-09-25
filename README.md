@@ -6,37 +6,37 @@ G-CNN layer implementation for Tensorflow/Keras.
 
 A group is represented by a class. An element of the group is represented by an object of that class. At a minimum a group G should implement:
 
-* G() should construct the identity element.
+* `G()` should construct the identity element.
 
-* G.__mul__ does group composition.
+* `G.__mul__` does group composition.
 
-* G.inverse computes the inverse group element and returns it.
+* `G.inverse` computes the inverse group element and returns it.
 
-* G.__eq__ should test for equality of group elements.
+* `G.__eq__` should test for equality of group elements.
 
-* G.name String name of the group. Set to None if no name is provided.
+* `G.name` String name of the group. Set to None if no name is provided.
 
 Additionally groups should if possible implement the following:
 
-* G.__str__ string representation of the group element.
+* `G.__str__` string representation of the group element.
 
 For a group G acting on a convolutional layer we will additionally require:
 
-* G is a finite group.
+* `G` is a finite group.
 
-* G.size Integer representing the number of elements in the group.
+* `G.size` Integer representing the number of elements in the group.
 
-* G.__int__ Returns an integer representation of the group element. This should
-  provide a bijection between the group elements and the integers 0,1,...,G.size-1.
+* `G.__int__` Returns an integer representation of the group element. This should
+  provide a bijection between the group elements and the integers `0,1,...,G.size-1`.
 
-* If integer representation is passed to G.__init__ it should construct the corresponding
-  group element. In particular we should have int(G(k)) == k for k in 0,1,...,G.size-1.
+* If integer representation is passed to `G.__init__` it should construct the corresponding
+  group element. In particular we should have `int(G(k)) == k` for k in `0,1,...,G.size-1`.
 
 For lightweight groups consider using the utility functions:
 
-* create_indexed_group_class for finite groups with integer representations.
+* `create_indexed_group_class` for finite groups with integer representations.
 
-* create_group_class for infinite groups.
+* `create_group_class` for infinite groups.
 
 
 ### Sub- and quotient groups
