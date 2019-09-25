@@ -13,6 +13,6 @@ from .quotient import create_quotient_group
 from .subgroup import create_inclusion
 #from .c4 import c4, c4_z2_action
 #from .z2 import z2
-#from .semidirectproduct import p4, semidirect_product
+from .semidirectproduct import create_semidirect_product
 
 #from .cn import c2
