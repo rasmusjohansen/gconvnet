@@ -1,6 +1,11 @@
 # gconvnet
 G-CNN layer implementation for Tensorflow/Keras. Based on [Group Equivariant Convolutional Networks](https://arxiv.org/abs/1602.07576).
 
+Use `gconvnet.GConv2D` to add a G-convolutional layer.
+
+Use `gconvnet.GMaxPool` to add max-pooling across the group action.
+
+Use `gconvnet.SpatialMaxPool` to add max-pooling across the underlying Z^2 grid.
 
 ## Representation of groups
 
@@ -74,3 +79,6 @@ A quotient group `G/H` is a group GmodH for which we have the following:
   a G index of some group element of G in the coset. Users should not depend on any particular
   rule regarding which element of the coset is chosen as the representative.
 
+### Group actions
+
+An action of a group G on a set S is just a function f(g,s) which when given g in G and s in S returns a group element of G representing gs.

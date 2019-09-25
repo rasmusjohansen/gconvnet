@@ -1,10 +1,15 @@
 import numpy as np
 
-def create_quotient_group(H,create_splitting=True,name=None):
+def create_quotient_group(H,name=None):
     """Creates the quotient G/H from H"""
 
-    _name = name
     G = H.supergroup
+    
+    if name == None and H.name != None and G.name != None:
+        name = G.name + '/' + H.name
+    
+    _name = name
+
     
     class QuotientGroup:
 
