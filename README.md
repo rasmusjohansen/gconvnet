@@ -48,29 +48,29 @@ A subgroup of G is a group H for which we have the following:
 
 * H is a subgroup of G in the group theoretic sense.
 
-* H.G_to_H is a G.size sized integer array translating G integer representations
+* `H.G_to_H` is a `G.size` sized integer array translating G integer representations
   to H integer representations. Any G integer representation that does not
   correspond to an element of H should map to -1.
 
-* H.H_to_G is an H.size sized integer array translating H integer representations
+* `H.H_to_G` is an `H.size` sized integer array translating H integer representations
   to G integer representations.
 
-* H.supergroup should be G
+* `H.supergroup` should be G
 
 Note: What we call a subgroup might more correctly be called a subgroup inclusion. The distinction serves as a distraction for end-users so we stick to calling it a subgroup even though technically it is slightly more. 
 
-A quotient group G/H is a group GmodH for which we have the following:
+A quotient group `G/H` is a group GmodH for which we have the following:
 
-* GmodH.supergroup is a group G
+* `GmodH.supergroup` is a group G
 
-* GmodH.subgroup is H, a normal subgroup of G (warning: it is up to the user to check
+* `GmodH.subgroup` is H, a normal subgroup of G (warning: it is up to the user to check
   that H is a normal subgroup. If H is not a normal subgroup of G no guarantees are
   provided regarding behavior.
 
-* GmodH.G_to_GmodH is a G.size sized integer array translating G integer representations
+* `GmodH.G_to_GmodH` is a `G.size` sized integer array translating G integer representations
   to H integer representations.
 
-* GmodH.GmodH_to_G is a (G.size/H.size) sized integer array translating coset indices to
+* `GmodH.GmodH_to_G` is a `(G.size/H.size)` sized integer array translating coset indices to
   a G index of some group element of G in the coset. Users should not depend on any particular
   rule regarding which element of the coset is chosen as the representative.
 
