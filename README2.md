@@ -20,3 +20,34 @@ A finite group with n elements will be represented by a class instance with the 
 
 - inverse(x): Compute x^(-1). Stateless.
 
+
+
+## Subgroup
+
+A subgroup consists of:
+
+- size: positive integer indicating size of group
+
+- compose(x,y): Compute xy. Stateless.
+
+- inverse(x): Compute x^(-1). Stateless.
+
+- supergroup: Supergroup
+
+- 
+
+# TODO:
+
+Define:
+
+- group action
+
+- space to be acted upon?
+
+- Nice presentation of groups
+
+- Subgruops
+
+- Operations: Subgroup, homomorphism, semidirect product, product.
+
+- Define generators.
