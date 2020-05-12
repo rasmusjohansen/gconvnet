@@ -32,3 +32,23 @@ These operations should be deterministic and satisfy the following axioms:
 - P.group is a group.
 - P.gens has no duplicates.
 - functools.reduce(P.group.mul, [P.gens[idx] for idx in P.get_presentation(x)]) == x
+
+## Space
+
+X
+
+- X.shape
+- X.supp_shape
+- X.group
+- X.action(g,x) 
+- 
+
+
+## Space homomorphism
+
+f
+
+- f.input_space
+- f.output_space
+- f.__call__(y) = x
+

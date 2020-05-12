@@ -1,4 +1,5 @@
 # gconvnet
+
 G-CNN layer implementation for Tensorflow/Keras. Based on [Group Equivariant Convolutional Networks](https://arxiv.org/abs/1602.07576).
 
 Use `gconvnet.GConv2D` to add a G-convolutional layer.
