@@ -1,0 +1,34 @@
+
+
+## Group
+
+A group G is an object with the following members:
+
+- G.size is the number of elements in the group.
+- G.identity is the identity element.
+- G.inv(x) returns the inverse of x, where x is 0,1,...,G.size-1.
+- G.mul(x,y) returns xy where x,y are in 0,1,...,G.size-1.
+
+These operations should all be deterministic. These are required to satisfy the usual group axioms:
+
+- G.mul(x, G.inv(x)) == G.identity
+- G.mul(G.inv(x),x) == G.identity
+- G.mul(x, G.identity) == x
+- G.mul(G.identity,x) == x
+- G.mul(x, G.mul(y,z)) == G.mul(G.mul(x,y), z)
+
+## Group presentation
+
+A group presentation P is an object with the following members:
+
+- P.group is the underlying group.
+- P.gens is a list of group elements.
+- P.get_presentation(x) returns a list of indices into P.gens that indicate how to decompose the
+  group element x.
+- (optional) P.gen_names is a list of length len(P.gens) with the names of the generators. This makes it a named presentation.
+  
+These operations should be deterministic and satisfy the following axioms:
+
+- P.group is a group.
+- P.gens has no duplicates.
+- functools.reduce(P.group.mul, [P.gens[idx] for idx in P.get_presentation(x)]) == x
