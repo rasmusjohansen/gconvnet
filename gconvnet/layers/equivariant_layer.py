@@ -7,7 +7,8 @@ class EquivariantLayer(tf.keras.layers.Layer):
                 output_space,
                 filter_sub,
                 embedding,
-                weight_partition_func):
+                weight_partition_func,
+                padding_value):
         super(EquivariantLayer,self).__init__()
         
         self.input_space = input_space
@@ -15,6 +16,7 @@ class EquivariantLayer(tf.keras.layers.Layer):
         self.filter_sub = filter_sub
         self.embedding = embedding
         self.weight_partition_func = weight_partition_function
+        self.padding_value = padding_value
         
     def build(self,input_shape):
         self.input_size = functools.reduce(lambda x,y: x*y, self.input_space.shape)
@@ -48,7 +50,9 @@ class EquivariantLayer(tf.keras.layers.Layer):
                     g,
                     self.embedding(output_coord))    
                 
-                self.weight_indices[input_coord + output_coord] = weight_index
+                # TODO: Add proper support for padded coordinates.
+                if not self.input_space.valid(input_coord):                
+                    self.weight_indices[input_coord + output_coord] = weight_index
                         
                     
         # TODO: Add initializer option.
@@ -79,4 +83,4 @@ class EquivariantLayer(tf.keras.layers.Layer):
             self.weight_matrix)
                 
         return tf.reshape(flat_output, 
-                          shape=(-1,) + self.output_space.shape)      
+                          shape=(-1,) + self.output_space.shape)   
