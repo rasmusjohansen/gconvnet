@@ -22,3 +22,6 @@ class Zn:
         assert len(y)==self.ndim
         
         return x+y
+        
+    def __str__(self):
+        return 'Z^' + str(self.ndim)
