@@ -1,3 +1,5 @@
+import gconvnet.groups.group
+
 class cn:
     """Cyclic group of order n."""
     def __init__(self,n):
